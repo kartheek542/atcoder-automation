@@ -9,16 +9,6 @@ public class #CLASS# {
         out = new PrintWriter(System.out);
     }
     public static void solve() {
-        char[] a = sc.next().toCharArray();
-        int l = a.length / 2;
-        for(int i = 1; i <= l; i++) {
-            int x = 2 * i - 1 - 1;
-            int y = 2 * i - 1;
-            char c = a[x];
-            a[x] = a[y];
-            a[y] = c;
-        }
-        out.println(new String(a));
     }
     public static void main(String[] args) {
         int t = #TESTS#;

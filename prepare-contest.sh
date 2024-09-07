@@ -1,8 +1,17 @@
 #!/bin/bash
 
 contest=$1
-curl -s https://atcoder.jp/contests/$contest/tasks | grep "/contests/$contest/tasks/$contest" | sed -Ee 's/^.*<a.*"(.+)".*$/\1/g' | uniq > $contest.problems
+atcoder_cookie=""
+curl -s "https://atcoder.jp/contests/$contest/tasks" -H "cookie: REVEL_SESSION=$atcoder_cookie" | grep "/contests/$contest/tasks/$contest" | sed -Ee 's/^.*<a.*"(.+)".*$/\1/g' | uniq > $contest.problems
 itr=0
+
+total_problems=$(cat $contest.problems | wc -l)
+if [ $total_problems -eq 0 ];
+then
+    echo "Please check internet connectivity or cookie"
+    exit 1
+fi
+
 
 mkdir -p ./$contest
 
@@ -13,7 +22,7 @@ do
     prob_file=$(basename $line)
     echo "prob_file is $prob_file"
     problem_url="https://atcoder.jp$line"
-    curl -s $problem_url > $prob_file
+    curl -s $problem_url -H "cookie: REVEL_SESSION=$atcoder_cookie" > $prob_file
     start_line=$(cat $prob_file | grep -n "Sample Input 1" | sed -Ee "s/^([0-9]+):.*$/\1/g")
     prob_io="${prob_file}_trimed"
     echo "prob_io is $prob_io"
