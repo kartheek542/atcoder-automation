@@ -31,6 +31,8 @@ do
     cp ./template.java ./$contest/$ques.java
     sed -i "s/#CLASS#/$ques/g" ./$contest/$ques.java
     sed -i "s/#TESTS#/1/g" ./$contest/$ques.java
+    sed -i 's/&lt;/</g' $prob_io
+    sed -i 's/&gt;/>/g' $prob_io
     ./extract_io.py $prob_io >> ./$contest/$ques.java
     rm -f $prob_io
     itr=$((itr + 1))
