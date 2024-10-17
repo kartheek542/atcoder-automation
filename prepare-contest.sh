@@ -1,5 +1,6 @@
 #!/bin/bash
 
+automation_home="#AUTOMATION_HOME#"
 contest=$1
 atcoder_cookie=""
 curl -s "https://atcoder.jp/contests/$contest/tasks" -H "cookie: REVEL_SESSION=$atcoder_cookie" | grep "/contests/$contest/tasks/$contest" | sed -Ee 's/^.*<a.*"(.+)".*$/\1/g' | uniq > $contest.problems
@@ -28,12 +29,12 @@ do
     echo "prob_io is $prob_io"
     cat $prob_file | tail -n +$start_line > $prob_io
     rm -f $prob_file
-    cp ./template.java ./$contest/$ques.java
+    cp $automation_home/atcoder-automation/template.java ./$contest/$ques.java
     sed -i "s/#CLASS#/$ques/g" ./$contest/$ques.java
     sed -i "s/#TESTS#/1/g" ./$contest/$ques.java
     sed -i 's/&lt;/</g' $prob_io
     sed -i 's/&gt;/>/g' $prob_io
-    ./extract_io.py $prob_io >> ./$contest/$ques.java
+    $automation_home/atcoder-automation/extract_io.py $prob_io >> ./$contest/$ques.java
     rm -f $prob_io
     itr=$((itr + 1))
 
