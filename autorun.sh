@@ -1,10 +1,11 @@
 #!/bin/bash
 
+automation_home="#AUTOMATION_HOME#"
 ques=$(ls -t *.java | head -1)
 
 javac $ques
 
-n_tests=$(../gen_files.py $ques)
+n_tests=$($automation_home/atcoder-automation/gen_files.py $ques)
 
 echo "there are $n_tests tests"
 
